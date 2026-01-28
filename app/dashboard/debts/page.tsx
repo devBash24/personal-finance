@@ -168,48 +168,97 @@ export default function DebtsPage() {
               No debts. Add one to get started.
             </p>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead className="text-right">Principal</TableHead>
-                  <TableHead className="text-right">Interest %</TableHead>
-                  <TableHead className="text-right">Monthly</TableHead>
-                  <TableHead className="w-[100px]" />
-                </TableRow>
-              </TableHeader>
-              <TableBody>
+            <>
+              {/* Mobile: stacked rows (no horizontal scrolling) */}
+              <div className="sm:hidden space-y-2">
                 {list.map((d) => (
-                  <TableRow key={d.id}>
-                    <TableCell>{d.name}</TableCell>
-                    <TableCell className="text-right">{d.principal}</TableCell>
-                    <TableCell className="text-right">
-                      {d.interestRate ?? "—"}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {d.monthlyPayment}
-                    </TableCell>
-                    <TableCell className="flex gap-2">
+                  <div
+                    key={d.id}
+                    className="rounded-md border border-border p-3"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="font-medium wrap-break-word">{d.name}</p>
+                        <div className="mt-1 space-y-0.5 text-sm text-muted-foreground">
+                          <p className="wrap-break-word">
+                            Principal: <span className="text-foreground/90">{d.principal}</span>
+                          </p>
+                          <p className="wrap-break-word">
+                            Interest: <span className="text-foreground/90">{d.interestRate ?? "—"}</span>
+                          </p>
+                          <p className="wrap-break-word">
+                            Monthly: <span className="text-foreground/90">{d.monthlyPayment}</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-3 flex flex-wrap gap-2">
                       <Button
-                        variant="ghost"
+                        variant="outline"
                         size="sm"
                         onClick={() => openEdit(d)}
                       >
                         Edit
                       </Button>
                       <Button
-                        variant="ghost"
+                        variant="outline"
                         size="sm"
                         className="text-destructive hover:text-destructive"
                         onClick={() => handleDelete(d.id)}
                       >
                         Delete
                       </Button>
-                    </TableCell>
-                  </TableRow>
+                    </div>
+                  </div>
                 ))}
-              </TableBody>
-            </Table>
+              </div>
+
+              {/* Desktop: table */}
+              <div className="hidden sm:block">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Name</TableHead>
+                      <TableHead className="text-right">Principal</TableHead>
+                      <TableHead className="text-right">Interest %</TableHead>
+                      <TableHead className="text-right">Monthly</TableHead>
+                      <TableHead className="w-[100px]" />
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {list.map((d) => (
+                      <TableRow key={d.id}>
+                        <TableCell>{d.name}</TableCell>
+                        <TableCell className="text-right">{d.principal}</TableCell>
+                        <TableCell className="text-right">
+                          {d.interestRate ?? "—"}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          {d.monthlyPayment}
+                        </TableCell>
+                        <TableCell className="flex gap-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => openEdit(d)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-destructive hover:text-destructive"
+                            onClick={() => handleDelete(d.id)}
+                          >
+                            Delete
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </>
           )}
         </CardContent>
       </Card>

@@ -113,50 +113,89 @@ export default function ChangesPage() {
               No data yet. Add income and expenses to see changes.
             </p>
           ) : (
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Month</TableHead>
-                    <TableHead className="text-right">Income</TableHead>
-                    <TableHead className="text-right">Δ Income</TableHead>
-                    <TableHead className="text-right">Expenses</TableHead>
-                    <TableHead className="text-right">Δ Expenses</TableHead>
-                    <TableHead className="text-right">Savings</TableHead>
-                    <TableHead className="text-right">Δ Savings</TableHead>
-                    <TableHead className="text-right">Subscriptions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {rows.map((r) => (
-                    <TableRow key={r.id}>
-                      <TableCell className="font-medium">{r.label}</TableCell>
-                      <TableCell className="text-right">
-                        {formatNum(r.income)}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Delta v={r.deltaIncome} />
-                      </TableCell>
-                      <TableCell className="text-right">
-                        {formatNum(r.expenses)}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Delta v={r.deltaExpenses} />
-                      </TableCell>
-                      <TableCell className="text-right">
-                        {formatNum(r.savings)}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Delta v={r.deltaSavings} />
-                      </TableCell>
-                      <TableCell className="text-right">
-                        {formatNum(r.subscriptions)}
-                      </TableCell>
+            <>
+              {/* Mobile: stacked cards (no horizontal scrolling) */}
+              <div className="sm:hidden space-y-2">
+                {rows.map((r) => (
+                  <div key={r.id} className="rounded-md border border-border p-3">
+                    <p className="font-medium">{r.label}</p>
+                    <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-2 text-sm">
+                      <div>
+                        <p className="text-muted-foreground">Income</p>
+                        <p className="font-medium">{formatNum(r.income)}</p>
+                        <p className="mt-0.5">
+                          <Delta v={r.deltaIncome} />
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-muted-foreground">Expenses</p>
+                        <p className="font-medium">{formatNum(r.expenses)}</p>
+                        <p className="mt-0.5">
+                          <Delta v={r.deltaExpenses} />
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground">Savings</p>
+                        <p className="font-medium">{formatNum(r.savings)}</p>
+                        <p className="mt-0.5">
+                          <Delta v={r.deltaSavings} />
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-muted-foreground">Subscriptions</p>
+                        <p className="font-medium">{formatNum(r.subscriptions)}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Desktop: table */}
+              <div className="hidden sm:block">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Month</TableHead>
+                      <TableHead className="text-right">Income</TableHead>
+                      <TableHead className="text-right">Δ Income</TableHead>
+                      <TableHead className="text-right">Expenses</TableHead>
+                      <TableHead className="text-right">Δ Expenses</TableHead>
+                      <TableHead className="text-right">Savings</TableHead>
+                      <TableHead className="text-right">Δ Savings</TableHead>
+                      <TableHead className="text-right">Subscriptions</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+                  </TableHeader>
+                  <TableBody>
+                    {rows.map((r) => (
+                      <TableRow key={r.id}>
+                        <TableCell className="font-medium">{r.label}</TableCell>
+                        <TableCell className="text-right">
+                          {formatNum(r.income)}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <Delta v={r.deltaIncome} />
+                        </TableCell>
+                        <TableCell className="text-right">
+                          {formatNum(r.expenses)}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <Delta v={r.deltaExpenses} />
+                        </TableCell>
+                        <TableCell className="text-right">
+                          {formatNum(r.savings)}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <Delta v={r.deltaSavings} />
+                        </TableCell>
+                        <TableCell className="text-right">
+                          {formatNum(r.subscriptions)}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </>
           )}
         </CardContent>
       </Card>

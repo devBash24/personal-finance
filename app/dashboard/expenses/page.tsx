@@ -172,42 +172,86 @@ export default function ExpensesPage() {
               No expenses yet. Add one to get started.
             </p>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Category</TableHead>
-                  <TableHead className="text-right">Amount</TableHead>
-                  <TableHead className="w-[80px]" />
-                </TableRow>
-              </TableHeader>
-              <TableBody>
+            <>
+              {/* Mobile: stacked rows (no horizontal scrolling) */}
+              <div className="sm:hidden space-y-2">
                 {expenses.map((row) => (
-                  <TableRow key={row.id}>
-                    <TableCell>{row.name}</TableCell>
-                    <TableCell>{row.categoryName}</TableCell>
-                    <TableCell className="text-right">{row.amount}</TableCell>
-                    <TableCell className="flex gap-2">
+                  <div
+                    key={row.id}
+                    className="rounded-md border border-border p-3"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="font-medium wrap-break-word">{row.name}</p>
+                        <p className="text-sm text-muted-foreground wrap-break-word">
+                          {row.categoryName}
+                        </p>
+                      </div>
+                      <div className="shrink-0 text-right">
+                        <p className="font-medium">{row.amount}</p>
+                      </div>
+                    </div>
+                    <div className="mt-3 flex flex-wrap gap-2">
                       <Button
-                        variant="ghost"
+                        variant="outline"
                         size="sm"
                         onClick={() => openEdit(row)}
                       >
                         Edit
                       </Button>
                       <Button
-                        variant="ghost"
+                        variant="outline"
                         size="sm"
                         className="text-destructive hover:text-destructive"
                         onClick={() => handleDelete(row.id)}
                       >
                         Delete
                       </Button>
-                    </TableCell>
-                  </TableRow>
+                    </div>
+                  </div>
                 ))}
-              </TableBody>
-            </Table>
+              </div>
+
+              {/* Desktop: table */}
+              <div className="hidden sm:block">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Category</TableHead>
+                      <TableHead className="text-right">Amount</TableHead>
+                      <TableHead className="w-[80px]" />
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {expenses.map((row) => (
+                      <TableRow key={row.id}>
+                        <TableCell>{row.name}</TableCell>
+                        <TableCell>{row.categoryName}</TableCell>
+                        <TableCell className="text-right">{row.amount}</TableCell>
+                        <TableCell className="flex gap-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => openEdit(row)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-destructive hover:text-destructive"
+                            onClick={() => handleDelete(row.id)}
+                          >
+                            Delete
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </>
           )}
         </CardContent>
       </Card>

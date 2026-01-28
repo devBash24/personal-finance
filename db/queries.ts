@@ -23,7 +23,6 @@ const DEFAULT_CATEGORIES: { name: string; type: "utility" | "debt" | "savings" |
   { name: "Debt payments", type: "debt" },
   { name: "Savings contributions", type: "savings" },
   { name: "Misc", type: "misc" },
-  { name: "Rent", type: "E" },
 ];
 
 export async function ensureProfile(userId: string) {

@@ -174,61 +174,131 @@ export default function SubscriptionsPage() {
               No subscriptions. Add one to get started.
             </p>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Amount</TableHead>
-                  <TableHead>Billing day</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="w-[140px]" />
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {list.map((s) => (
-                  <TableRow key={s.id}>
-                    <TableCell>{s.name}</TableCell>
-                    <TableCell>{s.amount}</TableCell>
-                    <TableCell>{s.billingDay ?? "—"}</TableCell>
-                    <TableCell>
-                      <span
-                        className={
-                          s.isActive !== false
-                            ? "text-green-600"
-                            : "text-muted-foreground"
-                        }
-                      >
-                        {s.isActive !== false ? "Active" : "Paused"}
-                      </span>
-                    </TableCell>
-                    <TableCell className="flex gap-2">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => toggleActive(s)}
-                      >
-                        {s.isActive !== false ? "Pause" : "Resume"}
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => openEdit(s)}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-destructive hover:text-destructive"
-                        onClick={() => handleDelete(s.id)}
-                      >
-                        Delete
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <>
+              {/* Mobile: stacked rows (no horizontal scrolling) */}
+              <div className="sm:hidden space-y-2">
+                {list.map((s) => {
+                  const isActive = s.isActive !== false;
+                  return (
+                    <div
+                      key={s.id}
+                      className="rounded-md border border-border p-3"
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <p className="font-medium wrap-break-word">{s.name}</p>
+                          <div className="mt-1 space-y-0.5 text-sm text-muted-foreground">
+                            <p className="wrap-break-word">
+                              Amount:{" "}
+                              <span className="text-foreground/90">{s.amount}</span>
+                            </p>
+                            <p className="wrap-break-word">
+                              Billing day:{" "}
+                              <span className="text-foreground/90">
+                                {s.billingDay ?? "—"}
+                              </span>
+                            </p>
+                            <p className="wrap-break-word">
+                              Status:{" "}
+                              <span
+                                className={
+                                  isActive ? "text-green-600" : "text-muted-foreground"
+                                }
+                              >
+                                {isActive ? "Active" : "Paused"}
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => toggleActive(s)}
+                        >
+                          {isActive ? "Pause" : "Resume"}
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => openEdit(s)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="text-destructive hover:text-destructive"
+                          onClick={() => handleDelete(s.id)}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Desktop: table */}
+              <div className="hidden sm:block">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Amount</TableHead>
+                      <TableHead>Billing day</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="w-[140px]" />
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {list.map((s) => (
+                      <TableRow key={s.id}>
+                        <TableCell>{s.name}</TableCell>
+                        <TableCell>{s.amount}</TableCell>
+                        <TableCell>{s.billingDay ?? "—"}</TableCell>
+                        <TableCell>
+                          <span
+                            className={
+                              s.isActive !== false
+                                ? "text-green-600"
+                                : "text-muted-foreground"
+                            }
+                          >
+                            {s.isActive !== false ? "Active" : "Paused"}
+                          </span>
+                        </TableCell>
+                        <TableCell className="flex gap-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => toggleActive(s)}
+                          >
+                            {s.isActive !== false ? "Pause" : "Resume"}
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => openEdit(s)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-destructive hover:text-destructive"
+                            onClick={() => handleDelete(s.id)}
+                          >
+                            Delete
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </>
           )}
         </CardContent>
       </Card>

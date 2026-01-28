@@ -107,7 +107,7 @@ export function DashboardNav() {
           </DropdownMenu>
         </div>
       </div>
-      <nav className="flex md:hidden items-center gap-2 overflow-x-auto px-4 py-2 border-t border-border">
+      <nav className="flex md:hidden items-center gap-2 overflow-x-auto px-4 py-2 border-t border-border min-w-0">
         {NAV.map(({ href, label }) => {
           const isActive =
             href === "/dashboard"
