@@ -30,11 +30,14 @@ export default function SignUpPage() {
     setError(null);
     setMessage(null);
     setLoading(true);
+    const baseUrl =
+      process.env.NEXT_PUBLIC_SITE_URL ??
+      (typeof window !== "undefined" ? window.location.origin : "");
     const { error: err } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo: `${typeof window !== "undefined" ? location.origin : ""}/auth/callback`,
+        emailRedirectTo: `${baseUrl}/auth/callback`,
       },
     });
     setLoading(false);
